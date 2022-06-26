@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "964053587416",
+    "project_id": "pretike-442f7",
+    "storage_bucket": "pretike-442f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964053587416:android:75f7827d0147a0d0324ead",
+        "android_client_info": {
+          "package_name": "com.example.pretike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964053587416-t9ddba0fprmnah9k30jdbldvqi54nre5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ0g4zUR4Hs78mNuaLMRwYt93wEslae5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964053587416-t9ddba0fprmnah9k30jdbldvqi54nre5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
