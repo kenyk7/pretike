@@ -24,103 +24,104 @@ class _ResumePageState extends State<ResumePage> {
         title: const Text('Resumen'),
       ),
       body: StreamDoc(
-          stream: _resumeStream,
-          done: (context, snapshot) {
-            Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-            final int meta = data['meta'];
-            final int total = data['total'];
-            final int need = total <= meta ? meta - total : 0;
-            final int benefit = total > meta ? total - meta : 0;
-            final double percentage = total >= meta ? 1 : total / meta;
-            return Column(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-                  color: Colors.blue,
-                  child: DefaultTextStyle(
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10),
-                            const Text('Meta'),
-                            Text.rich(
-                              TextSpan(
-                                text: 'S/ ',
-                                children: [
-                                  TextSpan(
-                                    text: meta.toString(),
-                                    style: const TextStyle(
-                                      fontSize: 40,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              style: const TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '+ S/ ${benefit.toString()}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            height: 3,
-                          ),
-                        ),
-                      ],
-                    ),
+        stream: _resumeStream,
+        done: (context, snapshot) {
+          Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+          final int meta = data['meta'];
+          final int total = data['total'];
+          final int need = total <= meta ? meta - total : 0;
+          final int benefit = total > meta ? total - meta : 0;
+          final double percentage = total >= meta ? 1 : total / meta;
+          return Column(
+            children: [
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                color: Colors.blue,
+                child: DefaultTextStyle(
+                  style: const TextStyle(
+                    color: Colors.white,
                   ),
-                ),
-                const SizedBox(height: 40),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Center(
-                        child: Transform.scale(
-                          scale: 1.2,
-                          child: SizedBox(
-                            width: 160,
-                            child: CircleProgressBar(
-                              foregroundColor: Colors.teal,
-                              backgroundColor: Colors.grey.withOpacity(0.2),
-                              value: percentage,
-                              child: _dragonCircle(percentage * 100),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 50),
-                      Row(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: cardInfo('Venta', 'S/ ${total.toString()}'),
-                          ),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: cardInfo('Falta', 'S/ ${need.toString()}',
-                                color: Colors.red),
+                          const SizedBox(height: 10),
+                          const Text('Meta'),
+                          Text.rich(
+                            TextSpan(
+                              text: 'S/ ',
+                              children: [
+                                TextSpan(
+                                  text: meta.toString(),
+                                  style: const TextStyle(
+                                    fontSize: 40,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            style: const TextStyle(
+                              fontSize: 20,
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
-                      cardInfo('Ganancias', 'S/ ${benefit.toString()}',
-                          color: benefit > 0 ? Colors.blue : Colors.orange),
+                      Text(
+                        '+ S/ ${benefit.toString()}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          height: 3,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
-            );
-          }),
+              ),
+              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Center(
+                      child: Transform.scale(
+                        scale: 1.2,
+                        child: SizedBox(
+                          width: 160,
+                          child: CircleProgressBar(
+                            foregroundColor: Colors.teal,
+                            backgroundColor: Colors.grey.withOpacity(0.2),
+                            value: percentage,
+                            child: _dragonCircle(percentage * 100),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 50),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: cardInfo('Venta', 'S/ ${total.toString()}'),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: cardInfo('Falta', 'S/ ${need.toString()}',
+                              color: Colors.red),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    cardInfo('Ganancias', 'S/ ${benefit.toString()}',
+                        color: benefit > 0 ? Colors.blue : Colors.orange),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 

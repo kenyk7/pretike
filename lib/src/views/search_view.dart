@@ -5,14 +5,42 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../firebase/fire_list.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    CollectionReference tickets = FirebaseFirestore.instance
-        .collection('brands/4K8YupbFjWCA4SIqxOe8/tickets');
+  State<SearchPage> createState() => _SearchPageState();
+}
 
+class _SearchPageState extends State<SearchPage> {
+  CollectionReference tickets = FirebaseFirestore.instance
+      .collection('brands/4K8YupbFjWCA4SIqxOe8/tickets');
+  TextEditingController tkey = TextEditingController();
+  late Future<QuerySnapshot> fquery;
+
+  void searchSubmit() async {
+    if (tkey.value.text.isNotEmpty) {
+      setState(() {
+        fquery =
+            tickets.where('tkey', isEqualTo: tkey.value.text).limit(20).get();
+      });
+    } else {
+      setState(() {
+        fquery = tickets.limit(20).get();
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      fquery = tickets.limit(20).get();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Buscar Registro'),
@@ -26,7 +54,7 @@ class SearchPage extends StatelessWidget {
               searchField('DNI'),
               const SizedBox(height: 20),
               FireList(
-                query: tickets.get(),
+                query: fquery,
                 done: (ctx, snapshot) {
                   return Column(
                     children: snapshot.docs
@@ -35,7 +63,8 @@ class SearchPage extends StatelessWidget {
                             digit: doc['digit'],
                             title: doc['dni'],
                             subtitle: doc['name'],
-                            isCheck: false,
+                            price: doc['price'],
+                            isCheck: doc['checkin'],
                           ),
                         )
                         .toList(),
@@ -55,12 +84,12 @@ class SearchPage extends StatelessWidget {
         SizedBox(
           height: 48,
           child: CupertinoTextField(
+            controller: tkey,
             placeholder: placeholder,
             placeholderStyle: const TextStyle(
               color: Colors.grey,
             ),
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            // style: GoogleFonts.poppins(),
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1,
@@ -75,7 +104,7 @@ class SearchPage extends StatelessWidget {
           right: 0,
           top: 0,
           child: IconButton(
-            onPressed: () => {},
+            onPressed: () => searchSubmit(),
             icon: const Icon(Icons.search_rounded),
           ),
         ),
@@ -87,6 +116,7 @@ class SearchPage extends StatelessWidget {
     required String digit,
     required String title,
     required String subtitle,
+    required int price,
     bool isCheck = false,
     GestureTapCallback? onTap,
   }) {
@@ -107,11 +137,9 @@ class SearchPage extends StatelessWidget {
           children: [
             SlidableAction(
               onPressed: (_) {},
-              // backgroundColor: Colors.grey,
               foregroundColor: Colors.black54,
               icon: Icons.sell_rounded,
-
-              label: 'S/ 40',
+              label: 'S/ $price',
             ),
           ],
         ),
