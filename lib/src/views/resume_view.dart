@@ -12,7 +12,7 @@ class ResumePage extends StatefulWidget {
 }
 
 class _ResumePageState extends State<ResumePage> {
-  final Stream<DocumentSnapshot> _resumeStream = FirebaseFirestore.instance
+  final _resumeStream = FirebaseFirestore.instance
       .collection('brands')
       .doc('4K8YupbFjWCA4SIqxOe8')
       .snapshots();

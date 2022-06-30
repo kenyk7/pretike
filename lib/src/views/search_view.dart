@@ -13,17 +13,18 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  CollectionReference tickets = FirebaseFirestore.instance
+  final tickets = FirebaseFirestore.instance
       .collection('brands/4K8YupbFjWCA4SIqxOe8/tickets');
-  TextEditingController tkey = TextEditingController();
+  final tkey = TextEditingController();
   late Future<QuerySnapshot> fquery;
 
   void searchSubmit() async {
-    if (tkey.value.text.isNotEmpty) {
+    final text = tkey.value.text;
+    if (text.isNotEmpty) {
       setState(() {
-        fquery =
-            tickets.where('tkey', isEqualTo: tkey.value.text).limit(20).get();
+        fquery = tickets.where('tkey', isEqualTo: text).limit(20).get();
       });
+      tkey.clear();
     } else {
       setState(() {
         fquery = tickets.limit(20).get();
@@ -84,8 +85,11 @@ class _SearchPageState extends State<SearchPage> {
         SizedBox(
           height: 48,
           child: CupertinoTextField(
+            maxLength: 4,
             controller: tkey,
             placeholder: placeholder,
+            keyboardType: TextInputType.number,
+            onEditingComplete: () => searchSubmit(),
             placeholderStyle: const TextStyle(
               color: Colors.grey,
             ),

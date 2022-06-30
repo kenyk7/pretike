@@ -14,23 +14,23 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController dni = TextEditingController();
-  TextEditingController digit = TextEditingController();
-  TextEditingController name = TextEditingController();
-  TextEditingController price = TextEditingController();
+  final dni = TextEditingController();
+  final digit = TextEditingController();
+  final name = TextEditingController();
+  final price = TextEditingController();
 
   bool loading = false;
 
-  CollectionReference tickets = FirebaseFirestore.instance
+  final tickets = FirebaseFirestore.instance
       .collection('brands/4K8YupbFjWCA4SIqxOe8/tickets');
 
   void saveData() async {
     setState(() => loading = true);
     await FirebaseFirestore.instance.runTransaction((transaction) async {
-      final DocumentReference _resumeRef = FirebaseFirestore.instance
+      final _resumeRef = FirebaseFirestore.instance
           .collection('brands')
           .doc('4K8YupbFjWCA4SIqxOe8');
-      DocumentSnapshot _resumeData = await transaction.get(_resumeRef);
+      final _resumeData = await transaction.get(_resumeRef);
 
       final dniVal = dni.value.text;
       final tkey = '${dniVal.substring(0, 2)}${dniVal.substring(6, 8)}';
@@ -48,17 +48,17 @@ class _RegisterPageState extends State<RegisterPage> {
         throw Exception('Document does not exist!');
       }
 
-      Map<String, dynamic> data = _resumeData.data() as Map<String, dynamic>;
+      final data = _resumeData.data()!;
 
       int updatedTotal = data['total'] + int.parse(price.value.text);
       transaction.update(_resumeRef, {'total': updatedTotal});
     });
     setState(() => loading = false);
-    // reset
-    dni.value = dni.value.copyWith(text: '');
-    digit.value = digit.value.copyWith(text: '');
-    name.value = name.value.copyWith(text: '');
-    price.value = price.value.copyWith(text: '');
+    // clear
+    dni.clear();
+    digit.clear();
+    name.clear();
+    price.clear();
   }
 
   @override
@@ -77,16 +77,35 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   Row(
                     children: [
-                      Expanded(child: inputField('DNI', dni)),
+                      Expanded(
+                        child: InpuField(
+                          placeholder: 'DNI',
+                          ctrlInput: dni,
+                          maxl: 8,
+                        ),
+                      ),
                       Container(
                         width: 90,
                         margin: const EdgeInsets.only(left: 20),
-                        child: inputField('Dígito', digit),
+                        child: InpuField(
+                          placeholder: 'Dígito',
+                          ctrlInput: digit,
+                          maxl: 1,
+                        ),
                       ),
                     ],
                   ),
-                  inputField('Nombres', name),
-                  inputField('Monto pagado', price),
+                  InpuField(
+                    placeholder: 'Nombres',
+                    ctrlInput: name,
+                    kbType: TextInputType.text,
+                    maxl: 32,
+                  ),
+                  InpuField(
+                    placeholder: 'Monto pagado',
+                    ctrlInput: price,
+                    maxl: 4,
+                  ),
                 ],
               ),
               const SizedBox(height: 20),
@@ -106,12 +125,29 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+}
 
-  inputField(String placeholder, TextEditingController ctrlInput) {
+class InpuField extends StatelessWidget {
+  const InpuField({
+    Key? key,
+    required this.ctrlInput,
+    required this.placeholder,
+    this.kbType = TextInputType.number,
+    this.maxl,
+  }) : super(key: key);
+  final TextEditingController ctrlInput;
+  final String placeholder;
+  final TextInputType kbType;
+  final int? maxl;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 48,
       margin: const EdgeInsets.only(bottom: 15),
       child: CupertinoTextField(
+        maxLength: maxl,
+        keyboardType: kbType,
         controller: ctrlInput,
         placeholder: placeholder,
         placeholderStyle: const TextStyle(
