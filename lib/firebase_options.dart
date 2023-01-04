@@ -47,29 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: '',
-    appId: '',
-    messagingSenderId: '',
-    projectId: '',
-    authDomain: '',
-    storageBucket: '',
+    apiKey: 'AIzaSyAKEUs1Xu9p_zfmEBnKqQE4nwI0dwqC2wI',
+    appId: '1:964053587416:web:aaceadd92df40dc0324ead',
+    messagingSenderId: '964053587416',
+    projectId: 'pretike-442f7',
+    authDomain: 'pretike-442f7.firebaseapp.com',
+    storageBucket: 'pretike-442f7.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: '',
-    appId: '',
-    messagingSenderId: '',
-    projectId: '',
-    storageBucket: '',
+    apiKey: 'AIzaSyAZ0g4zUR4Hs78mNuaLMRwYt93wEslae5A',
+    appId: '1:964053587416:android:75f7827d0147a0d0324ead',
+    messagingSenderId: '964053587416',
+    projectId: 'pretike-442f7',
+    storageBucket: 'pretike-442f7.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: '',
-    appId: '',
-    messagingSenderId: '',
-    projectId: '',
-    storageBucket: '',
-    iosClientId: '',
-    iosBundleId: '',
+    apiKey: 'AIzaSyC58jR768hAV-Jehad8aVqgzKyXy4Gt6B4',
+    appId: '1:964053587416:ios:3b09156aa36ba2c0324ead',
+    messagingSenderId: '964053587416',
+    projectId: 'pretike-442f7',
+    storageBucket: 'pretike-442f7.appspot.com',
+    iosClientId: '964053587416-dvatjrg01i9ve62ct34vsdjp3eta3t7c.apps.googleusercontent.com',
+    iosBundleId: 'com.example.pretike',
   );
 }
