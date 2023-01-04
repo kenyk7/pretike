@@ -33,6 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
       final _resumeData = await transaction.get(_resumeRef);
 
       final dniVal = dni.value.text;
+      // use for search data: 2 primeros + 2 últimos
       final tkey = '${dniVal.substring(0, 2)}${dniVal.substring(6, 8)}';
 
       await tickets.add({
